@@ -34,7 +34,7 @@ class StreamListener(tweepy.StreamListener):
                             'received_at' : datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                         }            
                 with open('..\output\\tweets.json', 'w') as outfile:
-                    json.dump(tweet_item, outfile)
+                    json.dump(tweet_item, outfile, indent=3)
             tweets += 1
         sys.exit()    
                 
