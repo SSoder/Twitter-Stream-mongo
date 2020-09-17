@@ -35,7 +35,7 @@ class StreamListener(tweepy.StreamListener):
                         'received_at' : datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     }
                     json.dump(tweet_item, outfile)
-                    tweet += 1
+                    tweets += 1
                 
                 
     def on_error(self, status_code):
