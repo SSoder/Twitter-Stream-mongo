@@ -3,7 +3,7 @@ from tweet_store import TweetStore
 
 app = Flask(__name__)
 store = TweetStore()
-template = '..\FrontEnd\\index.html'
+template = '..\\FrontEnd\\index.html'
 
 @app.route('/')
 def index():
