@@ -3,7 +3,7 @@ import datetime
 import json
 
 
-file_path = '..\config\api.json'
+file_path = '..\config\\twitter_creds.json'
 
 with open(file_path) as apiFile:
     twitter_api = json.loads(apiFile.read())
@@ -37,4 +37,4 @@ class StreamListener(tweepy.StreamListener):
 
 stream_listener = StreamListener()
 stream = tweepy.Stream(auth=api.auth, listener=stream_listener)
-stream.filter(track=["@WarbyParker", "@Bonobos", "@Casper", "@Glossier", "@DollarShaveClub", "@Allbirds"])
+stream.filter(track=["@WarbyParker", "@Bonobos", "@Casper", "@Glossier", "@DollarShaveClub", "@Allbirds", "pizza"])
