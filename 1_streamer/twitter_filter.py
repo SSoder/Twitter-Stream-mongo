@@ -1,4 +1,5 @@
 import tweepy
+from textblob import TextBlob
 import datetime
 import json
 
@@ -23,14 +24,20 @@ class StreamListener(tweepy.StreamListener):
     def on_status(self, status):
 
         if ('RT @' not in status.text):
-            tweet_item = {
-                'id_str' : status.id_str,
-                'text' : status.text,
-                'username' : status.user.screenname,
-                'name' : status.user.name,
-                'received_at' : datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            }
-            print(tweet_item)
+            tweets = 0
+            with open('..\output\\tweets.json', 'w') as outfile:
+                while tweets < 5:
+                    tweet_item = {
+                        'id_str' : status.id_str,
+                        'text' : status.text,
+                        'username' : status.user.screen_name,
+                        'name' : status.user.name,
+                        'received_at' : datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    }
+                    json.dump(tweet_item, outfile)
+                    tweet += 1
+                
+                
     def on_error(self, status_code):
         if status_code == 420:
             return False
