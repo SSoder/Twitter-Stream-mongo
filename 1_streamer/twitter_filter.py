@@ -28,7 +28,7 @@ class StreamListener(tweepy.StreamListener):
                 'text' : status.text,
                 'username' : status.user.screenname,
                 'name' : status.user.name,
-                'received_at' : datetime.datime.now().strftime("%Y-%m-%d %H:%M:%S")
+                'received_at' : datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             }
             print(tweet_item)
     def on_error(self, status_code):
