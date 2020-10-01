@@ -27,8 +27,7 @@ class TweetStore:
         
     
     def insert(self, data):
-        jdata = bson.encode(data)
-        self.record = self.collection.insert_one(jdata)
+        self.record = self.collection.insert_one(data)
         self.trim_count += 1
 
         if self.trim_count >= 10:
