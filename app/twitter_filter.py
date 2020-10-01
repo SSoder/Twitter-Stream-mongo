@@ -1,8 +1,9 @@
 import tweepy
-from textblob import TextBlob
 import datetime
 import json
 import sys
+from textblob import TextBlob
+from tweet_store import TweetStore
 
 
 file_path = '..\config\\twitter_creds.json'
@@ -19,32 +20,29 @@ auth = tweepy.OAuthHandler(consumer_key,consumer_secret)
 auth.set_access_token(access_token,access_token_secret)
 
 api = tweepy.API(auth)
+store = TweetStore()
 
 class StreamListener(tweepy.StreamListener):
 
     def on_status(self, status):
-        with open('..\output\\tweets.json', 'a+') as outfile:
-            if ('RT @' not in status.text):
-                
-                blob = TextBlob(status.text)
-                sent = blob.sentiment
-                polar = sent.polarity
-                subjective = sent.subjectivity
+        if ('RT @' not in status.text):
+            
+            blob = TextBlob(status.text)
+            sent = blob.sentiment
+            polar = sent.polarity
+            subjective = sent.subjectivity
 
-                tweet_item = {
-                            'id_str' : status.id_str,
-                            'text' : status.text,
-                            'polarity' : polar,
-                            'subjectivity' : subjective,
-                            'username' : status.user.screen_name,
-                            'name' : status.user.name,
-                            'received_at' : datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                        }            
-                print('Tweet grabbed\n')
-                print(tweet_item)
-                json.dump(tweet_item, outfile, indent=3)  
-                outfile.write('\n')
-                print('\nTweet written to json.\n\n')
+            tweet_item = {
+                        'id_str' : status.id_str,
+                        'text' : status.text,
+                        'polarity' : polar,
+                        'subjectivity' : subjective,
+                        'username' : status.user.screen_name,
+                        'name' : status.user.name,
+                        'received_at' : datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    }            
+            print('Tweet grabbed\n')
+            store.push(tweet_item)
                 
     def on_error(self, status_code):
         if status_code == 420:
