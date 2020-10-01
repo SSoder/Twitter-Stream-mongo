@@ -11,50 +11,46 @@ class TweetStore:
 
     def __init__(self):
         #mongoDB Configuration
-        self.mongo_user = "superuser"
-        self.mongo_pass = "Data"
-        self.mongo_host = "Localhost:27017/admin"
-        self.mongo_auth = "admin"
-        self.uri = 'mongodb://%s:%s@%s?authSource=%s' % (quote_plus(self.mongo_user), quote_plus(self.mongo_pass), self.mongo_host, self.mongo_auth)
+        mongo_user = "superuser"
+        mongo_pass = "Data"
+        mongo_host = "Localhost:27017/admin"
+        mongo_auth = "admin"
+        self.uri = 'mongodb://%s:%s@%s?authSource=%s' % (quote_plus(mongo_user), quote_plus(mongo_pass), mongo_host, mongo_auth)
         print("URI: {}".format(self.uri))
 
-        """self.client = MongoClient(host=self.uri)
-        try:
-            print(self.client.list_database_names())
-            print("Connected to MongoDB Client, ready for data.")
-        except ConnectionFailure: 
-            print("Sorry, connection failed!")
- #       self.db = self.client.tweet_data
- #       self.collection = self.db.tweet_collection"""
+        self.client = MongoClient(host=self.uri)
+        self.db = self.client.tweet_data
+        self.collection = self.db.tweet_collection
         self.trim_count = 0
 
         
     
     def insert(self, data):
         self.jdata = json.dumps(data)
-        print("jdata: {}".format(self.jdata))
-        #self.record = self.collection.insert_one()
-        print("jdata \"pushed\" to mongoDB.")
+        self.record = self.collection.insert_one(self.jdata)
         self.trim_count += 1
-        print("Trim Count: {}".format(self.trim_count))
 
-        if self.trim_count > 10:
-            print("Trim hit ten, trimming to zero!")
-            print("Current Trim Count: {}".format(self.trim_count))
+        if self.trim_count >= 10:
             self.trim_count = 0
-            print("Reset Trim Count: {}".format(self.trim_count))
 
     
     def tweets(self, limit=15):
         tweets = []
-        l=0
-        while l < limit:
-            tweet_obj = json.loads(self.jdata)
-            tweets.append(Tweet(tweet_obj))
-            l += 1
 
-        """for item in self.collection.find().sort('_id', desc).limit(limit):
+        for item in self.collection.find().sort('_id', desc).limit(limit):
             tweet_obj = json.loads(item)
-            tweets.append(Tweet(tweet_obj))"""
+            tweets.append(Tweet(tweet_obj))
         return tweets
-    
+     
+    def test_cxn(self):
+        try:
+            print(self.client.list_database_names())
+            print("Connected to MongoDB Client, ready for data.")
+        except ConnectionFailure: 
+            print("Sorry, connection failed!")
+
+
+
+if __name__ == "__main__":
+    store = TweetStore()
+    store.test_cxn()
