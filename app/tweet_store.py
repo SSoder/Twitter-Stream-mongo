@@ -21,7 +21,7 @@ class TweetStore:
 
         self.client = MongoClient(host=self.uri)
         self.db = self.client.tweet_data
-        self.collection = self.db.tweet_collection
+        self.collection = self.db.tweet_collection_testing1
         self.trim_count = 0
 
         
