@@ -11,6 +11,9 @@ class StreamListener(tweepy.StreamListener):
     def __init__(self):
         file_path = r'..\\config\\twitter_creds.json'
 
+        lang = ["en"]
+        track = ["@WarbyParker", "@Bonobos", "@Casper", "@Glossier", "@DollarShaveClub", "@Allbirds", "pizza"]
+
         with open(file_path) as apiFile:
             twitter_api = json.loads(apiFile.read())
 
@@ -22,11 +25,14 @@ class StreamListener(tweepy.StreamListener):
         auth = tweepy.OAuthHandler(consumer_key,consumer_secret)
         auth.set_access_token(access_token,access_token_secret)
         api = tweepy.API(auth)
-        self.auth = api.auth
-        self.store = TweetStore()
+        auth = api.auth
+        
+        stream = tweepy.Stream(auth=auth, listener=self)
+        stream.filter(languages=lang, track=track)
 
 
     def on_status(self, status):
+        store = TweetStore()
         if ('RT @' not in status.text):
             
             blob = TextBlob(status.text)
@@ -43,16 +49,10 @@ class StreamListener(tweepy.StreamListener):
                         'name' : status.user.name,
                         'received_at' : datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     }
-            self.store.insert(tweet_item)
+            store.insert(tweet_item)
 
 
     def on_error(self, status_code):
         if status_code == 420:
             return False
-    
-         
-    def start_stream(self):
-        lang = ["en"]
-        track = ["@WarbyParker", "@Bonobos", "@Casper", "@Glossier", "@DollarShaveClub", "@Allbirds", "pizza"]
-        stream = tweepy.Stream(auth=self.auth, listener=self)
-        stream.filter(languages=lang, track=track)
+            
