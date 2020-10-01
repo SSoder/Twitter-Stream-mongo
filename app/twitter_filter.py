@@ -42,7 +42,7 @@ class StreamListener(tweepy.StreamListener):
                         'received_at' : datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     }            
             print('Tweet grabbed\n')
-            store.push(tweet_item)
+            store.insert(tweet_item)
                 
     def on_error(self, status_code):
         if status_code == 420:
