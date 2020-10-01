@@ -1,7 +1,6 @@
 import tweepy
 import datetime
 import json
-import sys
 from textblob import TextBlob
 from tweet_store import TweetStore
 

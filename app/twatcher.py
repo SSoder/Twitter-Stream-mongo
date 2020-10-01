@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-#from tweet_store import TweetStore
+from tweet_store import TweetStore
 
 app = Flask(__name__)
 store = TweetStore()

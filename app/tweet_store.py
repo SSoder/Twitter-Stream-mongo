@@ -48,10 +48,10 @@ class TweetStore:
 
     
     def tweets(self, limit=15):
-        tweets = []
+        tweets = ['THIS IS A TEST']
 
-        for item in self.collection.find().sort('_id', desc).limit(limit):
+        """for item in self.collection.find().sort('_id', desc).limit(limit):
             tweet_obj = json.loads(item)
-            tweets.append(tweet_obj)
+            tweets.append(tweet_obj)"""
         return tweets
     
