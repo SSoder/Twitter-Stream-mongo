@@ -5,18 +5,16 @@ from pymongo import DESCENDING as desc
 
 class TweetStore:
 
-    #mongoDB Configuration
-    mongo_user = "superuser"
-    mongo_pass = "Data"
-    mongo_host = "Localhost"
-    mongo_port = 27017
-    mongo_dbase = "admin"
-    mongo_auth = "admin"
-
     num_tweets = 20
 
     def __init__(self):
-
+        #mongoDB Configuration
+        self.mongo_user = "superuser"
+        self.mongo_pass = "Data"
+        self.mongo_host = "Localhost"
+        self.mongo_port = 27017
+        self.mongo_dbase = "admin"
+        self.mongo_auth = "admin"
         self.mongo_login = "{}:{}".format(self.mongo_user, self.mongo_pass)
         self.mongo_hoststring = "{}:{}/{}".format(self.mongo_host,self.mongo_port,self.mongo_dbase)
 
