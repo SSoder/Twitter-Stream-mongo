@@ -30,9 +30,11 @@ class StreamListener(tweepy.StreamListener):
         stream = tweepy.Stream(auth=auth, listener=self)
         stream.filter(languages=lang, track=track)
 
+        self.store = TweetStore()
+
 
     def on_status(self, status):
-        store = TweetStore()
+        
         if ('RT @' not in status.text):
             
             blob = TextBlob(status.text)
@@ -49,7 +51,7 @@ class StreamListener(tweepy.StreamListener):
                         'name' : status.user.name,
                         'received_at' : datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     }
-            store.insert(tweet_item)
+            self.store.insert(tweet_item)
 
 
     def on_error(self, status_code):

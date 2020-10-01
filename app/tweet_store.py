@@ -1,6 +1,7 @@
 import json
+import bson
 from urllib.parse import quote_plus
-from pymongo import MongoClient
+from pymongo import MongoClient 
 from pymongo.errors import ConnectionFailure
 from pymongo import DESCENDING as desc
 from tweet import Tweet
@@ -26,7 +27,7 @@ class TweetStore:
         
     
     def insert(self, data):
-        self.jdata = json.dumps(data)
+        self.jdata = bson.encode(data)
         self.record = self.collection.insert_one(self.jdata)
         self.trim_count += 1
 
