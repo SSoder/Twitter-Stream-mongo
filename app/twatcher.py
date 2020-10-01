@@ -14,6 +14,8 @@ def index():
 def stream():
     stream_listener = StreamListener()
     stream_listener.start_stream()
+    tweets = store.tweets()
+    return render_template('index.html', tweets = tweets)
 
 if __name__ == '__main__':
     app.run(debug=True)
