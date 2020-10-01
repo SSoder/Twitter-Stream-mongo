@@ -15,7 +15,9 @@ class StreamListener(tweepy.StreamListener):
         track = ["@WarbyParker", "@Bonobos", "@Casper", "@Glossier", "@DollarShaveClub", "@Allbirds", "pizza"]
 
         with open(file_path) as apiFile:
+            
             twitter_api = json.loads(apiFile.read())
+            print("Credentials obtained.\n")
 
         consumer_key = twitter_api['API Key']
         consumer_secret = twitter_api['API Secret Key']
@@ -26,7 +28,8 @@ class StreamListener(tweepy.StreamListener):
         auth.set_access_token(access_token,access_token_secret)
         api = tweepy.API(auth)
         auth = api.auth
-        
+        print("Authentication provided.\n")
+        print("Starting Stream...\n")
         stream = tweepy.Stream(auth=auth, listener=self)
         stream.filter(languages=lang, track=track)
 
@@ -51,9 +54,16 @@ class StreamListener(tweepy.StreamListener):
                         'name' : status.user.name,
                         'received_at' : datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     }
+            print("Grabbed a tweet...\n")
             store.insert(tweet_item)
+            print("Tweet inserted into collection.\n")
 
 
     def on_error(self, status_code):
         if status_code == 420:
             return False
+
+
+if __name__ == "__main__":
+    stream_listener = StreamListener()
+    stream_listener.start_stream()
