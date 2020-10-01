@@ -3,6 +3,7 @@ from urllib.parse import quote_plus
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure
 from pymongo import DESCENDING as desc
+from tweet import Tweet
 
 class TweetStore:
 
@@ -45,7 +46,12 @@ class TweetStore:
 
     
     def tweets(self, limit=15):
-        tweets = ['THIS IS A TEST']
+        tweets = []
+        l=0
+        while l < limit:
+            tweet_obj = json.loads(self.jdata)
+            tweets.append(Tweet(tweet_obj))
+            l += 1
 
         """for item in self.collection.find().sort('_id', desc).limit(limit):
             tweet_obj = json.loads(item)
