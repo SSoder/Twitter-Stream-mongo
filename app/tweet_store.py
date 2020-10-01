@@ -19,11 +19,11 @@ class TweetStore:
         self.mongo_hoststring = "{}:{}/{}".format(self.mongo_host,self.mongo_port,self.mongo_dbase)
 
         self.client = MongoClient("mongodb://{}@{}?authSource={}".format(self.mongo_login,self.mongo_hoststring,self.mongo_auth))
-        try:
-            print(self.client.list_database_names())
-            print("Connected to MongoDB Client, ready for data.")
-        except ConnectionFailure: 
-            print("Sorry, connection failed!")
+ #       try:
+ #          print(self.client.list_database_names())
+ #           print("Connected to MongoDB Client, ready for data.")
+ #       except ConnectionFailure: 
+ #           print("Sorry, connection failed!")
         self.db = self.client.tweet_data
         self.collection = self.db.tweet_collection
         self.trim_count = 0
