@@ -8,7 +8,7 @@ from tweet_store import TweetStore
 
 class StreamListener(tweepy.StreamListener):
 
-    def __init__(self):
+    def start_stream(self):
         file_path = r'..\\config\\twitter_creds.json'
 
         lang = ["en"]
@@ -55,4 +55,3 @@ class StreamListener(tweepy.StreamListener):
     def on_error(self, status_code):
         if status_code == 420:
             return False
-            
