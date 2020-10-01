@@ -7,10 +7,13 @@ store = TweetStore()
 
 @app.route('/')
 def index():
-    stream_listener = StreamListener()
-    stream_listener.start_stream()
     tweets = store.tweets()
     return render_template('index.html', tweets = tweets)
+
+@app.route('/streaming')
+def stream():
+    stream_listener = StreamListener()
+    stream_listener.start_stream()
 
 if __name__ == '__main__':
     app.run(debug=True)

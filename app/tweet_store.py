@@ -17,7 +17,7 @@ class TweetStore:
         mongo_host = "Localhost:27017/admin"
         mongo_auth = "admin"
         self.uri = 'mongodb://%s:%s@%s?authSource=%s' % (quote_plus(mongo_user), quote_plus(mongo_pass), mongo_host, mongo_auth)
-        print("URI: {}".format(self.uri))
+        #print("URI: {}".format(self.uri))
 
         self.client = MongoClient(host=self.uri)
         self.db = self.client.tweet_data
@@ -27,19 +27,19 @@ class TweetStore:
         
     
     def insert(self, data):
-        self.jdata = bson.encode(data)
-        self.record = self.collection.insert_one(self.jdata)
+        jdata = bson.encode(data)
+        self.record = self.collection.insert_one(jdata)
         self.trim_count += 1
 
         if self.trim_count >= 10:
             self.trim_count = 0
 
     
-    def tweets(self, limit=15):
+    def tweets(self, limit=10):
         tweets = []
 
-        for item in self.collection.find().sort('_id', desc).limit(limit):
-            tweet_obj = json.loads(item)
+        for item in self.collection.find().sort('received_at', desc).limit(limit):
+            tweet_obj = item
             tweets.append(Tweet(tweet_obj))
         return tweets
      
