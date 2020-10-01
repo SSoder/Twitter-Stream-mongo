@@ -12,7 +12,7 @@ class TweetStore:
         self.mongo_user = "superuser"
         self.mongo_pass = "Data"
         self.mongo_host = "Localhost"
-        self.mongo_port = 27017
+        self.mongo_port = "27017"
         self.mongo_dbase = "admin"
         self.mongo_auth = "admin"
         self.mongo_login = "{}:{}".format(self.mongo_user, self.mongo_pass)
