@@ -5,21 +5,6 @@ from textblob import TextBlob
 from tweet_store import TweetStore
 
 
-file_path = r'..\\config\\twitter_creds.json'
-
-with open(file_path) as apiFile:
-    twitter_api = json.loads(apiFile.read())
-
-consumer_key = twitter_api['API Key']
-consumer_secret = twitter_api['API Secret Key']
-access_token = twitter_api['Access Token']
-access_token_secret = twitter_api['Access Token Secret']
-
-auth = tweepy.OAuthHandler(consumer_key,consumer_secret)
-auth.set_access_token(access_token,access_token_secret)
-
-api = tweepy.API(auth)
-store = TweetStore()
 
 class StreamListener(tweepy.StreamListener):
 
@@ -46,6 +31,26 @@ class StreamListener(tweepy.StreamListener):
     def on_error(self, status_code):
         if status_code == 420:
             return False
+    
+    def set_auth(self):
+        file_path = r'..\\config\\twitter_creds.json'
+
+        with open(file_path) as apiFile:
+            twitter_api = json.loads(apiFile.read())
+
+        consumer_key = twitter_api['API Key']
+        consumer_secret = twitter_api['API Secret Key']
+        access_token = twitter_api['Access Token']
+        access_token_secret = twitter_api['Access Token Secret']
+
+        auth = tweepy.OAuthHandler(consumer_key,consumer_secret)
+        auth.set_access_token(access_token,access_token_secret)
+        api = tweepy.API(auth)
+        self.auth = api.auth
+    
+    def setStore(self):
+        store = TweetStore()
+
 
 stream_listener = StreamListener()
 stream = tweepy.Stream(auth=api.auth, listener=stream_listener)
