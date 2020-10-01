@@ -1,5 +1,7 @@
 import json
 from pymongo import MongoClient
+from pymongo.errors import ConnectionFailure
+from pymongo import DESCENDING as desc
 
 class TweetStore:
 
@@ -15,14 +17,14 @@ class TweetStore:
 
     def __init__(self):
 
-        mongo_login = "{}:{}".format(self.mongo_user, self.mongo_pass)
-        mongo_hoststring = "{}:{}/{}".format(self.mongo_host,self.mongo_port,self.mongo_dbase)
+        self.mongo_login = "{}:{}".format(self.mongo_user, self.mongo_pass)
+        self.mongo_hoststring = "{}:{}/{}".format(self.mongo_host,self.mongo_port,self.mongo_dbase)
 
-        self.Client = MongoClient("mongodb://{}@{}?authSource={}".format(self.mongo_login,self.mongo_hoststring,self.mongo_auth))
+        self.client = MongoClient("mongodb://{}@{}?authSource={}".format(self.mongo_login,self.mongo_hoststring,self.mongo_auth))
         try:
-            self.Self.client == True
+            self.client.command('ismaster')
             print("Connected to MongoDB Client, ready for data.")
-        except: 
+        except ConnectionFailure: 
             print("Sorry, connection failed!")
         self.db = self.client.tweet_data
         self.collection = self.db.tweet_collection
@@ -48,7 +50,7 @@ class TweetStore:
     def tweets(self, limit=15):
         tweets = []
 
-        for item in self.collection.find().sort([_id:-1]).limit(limit):
+        for item in self.collection.find().sort('_id', desc).limit(limit):
             tweet_obj = json.loads(item)
             tweets.append(tweet_obj)
         return tweets

@@ -6,7 +6,7 @@ from textblob import TextBlob
 from tweet_store import TweetStore
 
 
-file_path = '..\config\\twitter_creds.json'
+file_path = r'..\\config\\twitter_creds.json'
 
 with open(file_path) as apiFile:
     twitter_api = json.loads(apiFile.read())
