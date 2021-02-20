@@ -13,12 +13,11 @@ class Tweet:
     
     def filter_brands(self, text):
         brands = [
-            "@WarbyParker",
-            "@Bonobos",
-            "@Casper",
-            "@Glossier",
-            "@DollarShaveClub",
-            "@Allbirds"
+            "@MadTreeBrewing",
+            "@Rhinegeist",
+            "@BraxtonBrewCo",
+            "@MoerleinLH",
+            "@TaftsBrewingCo"
         ]
 
         for brand in brands:
