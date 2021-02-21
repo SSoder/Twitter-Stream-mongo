@@ -58,7 +58,7 @@ class TweetStore:
     def test_cxn(self):
         try:
             self.db.collection_names()
-            print("Connected to MongoDB Client, ready for data.")
+            print("Connected to MongoDB Client, ready for data.\n")
         except ConnectionFailure: 
             print("Sorry, connection failed!")
 
