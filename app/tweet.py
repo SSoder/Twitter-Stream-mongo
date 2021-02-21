@@ -20,7 +20,7 @@ class Tweet:
             "@TaftsBrewingCo",
             "#cincy",
             "#COVID19",
-            "#pizza"
+            "#Zelda35th"
         ]
 
         for brand in brands:

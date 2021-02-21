@@ -20,7 +20,7 @@ class StreamListener(tweepy.StreamListener):
             "@TaftsBrewingCo",
             "#cincy",
             "#COVID19",
-            "#pizza"
+            "#Zelda35th"
         ]
 
         with open(file_path) as apiFile:
@@ -37,14 +37,17 @@ class StreamListener(tweepy.StreamListener):
         auth.set_access_token(access_token,access_token_secret)
         api = tweepy.API(auth)
         auth = api.auth
-        print("Authentication provided.\n")
+        print("Twitter Authentication provided.\n")
+        print("Connecting to Mongo.\n")
+        self.store = TweetStore()
+        
         print("Starting Stream...\n")
+        
         stream = tweepy.Stream(auth=auth, listener=self)
         stream.filter(languages=lang, track=track)
 
 
     def on_status(self, status):
-        store = TweetStore()
         if ('RT @' not in status.text):
             
             blob = TextBlob(status.text)
@@ -62,8 +65,9 @@ class StreamListener(tweepy.StreamListener):
                         'received_at' : datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     }
             print("Grabbed a tweet...\n")
-            store.insert(tweet_item)
+            self.store.insert(tweet_item)
             print("Tweet inserted into collection.\n")
+    
 
 
     def on_error(self, status_code):

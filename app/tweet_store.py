@@ -1,5 +1,6 @@
 import json
 import bson
+from configparser import ConfigParser
 from urllib.parse import quote_plus
 from pymongo import MongoClient 
 from pymongo.errors import ConnectionFailure
@@ -11,18 +12,30 @@ class TweetStore:
     num_tweets = 20
 
     def __init__(self):
-        #mongoDB Configuration
-        mongo_user = "superuser"
-        mongo_pass = "Data"
-        mongo_host = "Localhost:27017/tweetdb"
-        mongo_auth = "tweetdb"
-        self.uri = 'mongodb://%s:%s@%s?authSource=%s' % (quote_plus(mongo_user), quote_plus(mongo_pass), mongo_host, mongo_auth)
+        #mongoDB Configuration imported from *.ini file
+        
+        print("Obtaining database configuration.\n")
+        config_file = r'..\\config\\database.ini'
+        config_section = 'mongodb'
+        print("Parsing database configuration.\n")
+        parser = ConfigParser()
+        parser.read(config_file)
+        dbconfig = {}
+        if parser.has_section(config_section):
+            params = parser.items(config_section)
+            for param in params:
+                dbconfig[param[0]] = str(param[1])
+            print("Database configuration established.\n")
+        else:
+            raise Exception('Section {0} not found in the {1} file'.format(config_section, config_file))
+        
+        self.uri = 'mongodb://%s:%s@%s?authSource=%s' % (quote_plus(dbconfig['mongo_user']), quote_plus(dbconfig['mongo_pass']), dbconfig['mongo_host'], dbconfig['mongo_auth'])
         #print("URI: {}".format(self.uri))
-
         self.client = MongoClient(host=self.uri)
-        self.db = self.client.tweetsdb
+        self.db = self.client.tweetdb
         self.collection = self.db.tweets
         self.trim_count = 0
+        self.test_cxn()
 
         
     
@@ -44,7 +57,7 @@ class TweetStore:
      
     def test_cxn(self):
         try:
-            print(self.db.collection_names())
+            self.db.collection_names()
             print("Connected to MongoDB Client, ready for data.")
         except ConnectionFailure: 
             print("Sorry, connection failed!")
