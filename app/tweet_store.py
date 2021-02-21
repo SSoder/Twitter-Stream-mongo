@@ -14,14 +14,14 @@ class TweetStore:
         #mongoDB Configuration
         mongo_user = "superuser"
         mongo_pass = "Data"
-        mongo_host = "Localhost:27017/admin"
-        mongo_auth = "admin"
+        mongo_host = "Localhost:27017/tweetdb"
+        mongo_auth = "tweetdb"
         self.uri = 'mongodb://%s:%s@%s?authSource=%s' % (quote_plus(mongo_user), quote_plus(mongo_pass), mongo_host, mongo_auth)
         #print("URI: {}".format(self.uri))
 
         self.client = MongoClient(host=self.uri)
-        self.db = self.client.tweet_data
-        self.collection = self.db.tweet_collection_testing01
+        self.db = self.client.tweetsdb
+        self.collection = self.db.tweets
         self.trim_count = 0
 
         
@@ -44,7 +44,7 @@ class TweetStore:
      
     def test_cxn(self):
         try:
-            print(self.client.list_database_names())
+            print(self.db.collection_names())
             print("Connected to MongoDB Client, ready for data.")
         except ConnectionFailure: 
             print("Sorry, connection failed!")

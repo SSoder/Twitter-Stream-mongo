@@ -12,7 +12,15 @@ class StreamListener(tweepy.StreamListener):
         file_path = r'..\\config\\twitter_creds.json'
 
         lang = ["en"]
-        track = ["@WarbyParker", "@Bonobos", "@Casper", "@Glossier", "@DollarShaveClub", "@Allbirds", "pizza"]
+        track = [
+            "@MadTreeBrewing",
+            "@Rhinegeist",
+            "@BraxtonBrewCo",
+            "@MoerleinLH",
+            "@TaftsBrewingCo",
+            "#cincy",
+            "#COVID19"
+        ]
 
         with open(file_path) as apiFile:
             
@@ -32,8 +40,6 @@ class StreamListener(tweepy.StreamListener):
         print("Starting Stream...\n")
         stream = tweepy.Stream(auth=auth, listener=self)
         stream.filter(languages=lang, track=track)
-
-        #self.store = TweetStore()
 
 
     def on_status(self, status):

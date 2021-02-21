@@ -17,7 +17,9 @@ class Tweet:
             "@Rhinegeist",
             "@BraxtonBrewCo",
             "@MoerleinLH",
-            "@TaftsBrewingCo"
+            "@TaftsBrewingCo",
+            "#cincy",
+            "#COVID19"
         ]
 
         for brand in brands:
