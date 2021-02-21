@@ -19,7 +19,8 @@ class Tweet:
             "@MoerleinLH",
             "@TaftsBrewingCo",
             "#cincy",
-            "#COVID19"
+            "#COVID19",
+            "#pizza"
         ]
 
         for brand in brands:

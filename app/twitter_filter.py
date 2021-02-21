@@ -19,7 +19,8 @@ class StreamListener(tweepy.StreamListener):
             "@MoerleinLH",
             "@TaftsBrewingCo",
             "#cincy",
-            "#COVID19"
+            "#COVID19",
+            "#pizza"
         ]
 
         with open(file_path) as apiFile:
